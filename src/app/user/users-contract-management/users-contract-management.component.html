@@ -1,0 +1,65 @@
+<form [formGroup]="form">
+  <div class="row">
+    <div class="col-md-6 offset-md-3">
+      <h1>Contrats conclus</h1>
+    </div>
+  </div>
+<div class="row">
+  <div class="col-md-8 offset-md-2" >
+    <mat-tab-group>
+      <mat-tab label="Sur mes offres ">
+        <div class="row">
+          <div class="col-md-6" *ngFor="let pwo of loadedpwosPages[0]?.content">
+            <mat-list>
+              <mat-list-item >
+                <span matListItemTitle>Contrat conclus entre vous pour l'offre:</span>
+                <span matListItemLine class="font-weight-bold">{{pwo.offer.title}} posté le {{pwo.offer.creationDate | date:'dd/MM/yyyy à hh:mm' }} </span>
+                <span matListItemLine class="font-weight-bold">Et la proposition de {{pwo.proposal.owner.firstName}} {{pwo.proposal.owner.firstName}} du {{pwo.proposal.creationDate | date:'dd/MM/yyyy à hh:mm' }} </span>
+
+                <button mat-raised-button color="primary" (click)="onDetailsContract(pwo.offer,pwo.proposal,'mines')">Details</button>
+
+
+              </mat-list-item>
+            </mat-list>
+
+          </div>
+        </div>
+        <mat-paginator [length]="loadedpwosPages[0]?.numberOfElements"
+                       [pageSize]="sizes[0]"
+                       [pageIndex]="pages[0]"
+                       [pageSizeOptions]="[5, 10, 25, 100]"
+                       (page)="onPaginatorChange($event,0)"
+                       aria-label="Select page"
+                       showFirstLastButtons>
+        </mat-paginator>
+      </mat-tab>
+      <mat-tab label="Sur mes propositions" > <div class="row">
+        <div class="col-md-6" *ngFor="let pwo of loadedpwosPages[1]?.content">
+          <mat-list>
+            <mat-list-item >
+              <span matListItemTitle>Contrat conclus entre {{pwo.offer.owner.firstName}} {{pwo.offer.owner.lastName}} pour son offre:</span>
+              <span matListItemLine class="font-weight-bold">{{pwo.offer.title}} posté le {{pwo.offer.creationDate | date:'dd/MM/yyyy à hh:mm' }} </span>
+              <span matListItemLine class="font-weight-bold">Et vous pour la proposition du {{pwo.proposal.creationDate | date:'dd/MM/yyyy à hh:mm' }} </span>
+
+              <button mat-raised-button color="primary" (click)="onDetailsContract(pwo.offer,pwo.proposal,'received')">Details</button>
+
+
+            </mat-list-item>
+          </mat-list>
+
+        </div>
+      </div>
+        <mat-paginator [length]="loadedpwosPages[1]?.numberOfElements"
+                       [pageSize]="sizes[1]"
+                       [pageIndex]="pages[2]"
+                       [pageSizeOptions]="[5, 10, 25, 100]"
+                       (page)="onPaginatorChange($event,1)"
+                       aria-label="Select page"
+                       showFirstLastButtons>
+        </mat-paginator>
+      </mat-tab>
+
+    </mat-tab-group>
+  </div>
+</div>
+</form>

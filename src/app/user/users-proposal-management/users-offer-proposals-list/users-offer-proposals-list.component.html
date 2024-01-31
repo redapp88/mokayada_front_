@@ -1,0 +1,36 @@
+<!-- List group -->
+<div class="row">
+  <div class="col-md-4">
+    <div class="list-group" id="myList" role="tablist">
+      <a *ngFor="let proposal of loadedPropositions; index as i"   [ngClass]="{'active': i === 0,'bg-success' : proposal.status === 'ACCEPTED'}"
+         class="list-group-item list-group-item-action" data-toggle="list" href="#panel{{proposal.id}}" role="tab">
+        Par {{proposal.owner.firstName}} {{proposal.owner.lastName}}<span class="badge badge-danger badge-pill">{{proposal.items.length}}</span>
+
+        <p class="mb-0">Le {{proposal.creationDate |  date:"dd/MM/yyyy 'à' hh:mm"}}  <mat-icon *ngIf=" proposal.status === 'ACCEPTED'">check</mat-icon></p>
+
+
+      </a>
+
+    </div>
+  </div>
+  <div class="col-md-8">
+    <!-- Tab panes -->
+    <div class="tab-content">
+      <div *ngFor="let proposal of loadedPropositions ; index as i" class="tab-pane" [ngClass]="{'active': i === 0}" id="panel{{proposal.id}}"
+           role="tabpanel">
+        <ul class="list-group">
+          <button mat-button color="primary" (click)="onAcceptOffer(proposal)" [disabled]="loadedOffer.status==='CONCLUDED'">Accepter l'offre</button>
+          <li class="list-group-item" style="cursor: pointer;" *ngFor="let item of proposal.items" (click)="onDetailsItem(item)">
+            <button mat-mini-fab disabled aria-label="Example icon button with a home icon">
+              <mat-icon> local_florist</mat-icon>
+            </button>
+            {{item.title}}
+
+          </li>
+        </ul>
+
+      </div>
+
+    </div>
+  </div>
+</div>

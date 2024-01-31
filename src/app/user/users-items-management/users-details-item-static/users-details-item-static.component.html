@@ -1,0 +1,33 @@
+<div  class="row">
+  <div class="col-md-4">
+    <h2>Titre</h2>
+  </div>
+  <div class="col-md-6">
+    {{loadedItem.title}}
+  </div>
+</div>
+<div  class="row">
+  <div class="col-md-4">
+    <h2>Description</h2>
+  </div>
+  <div class="col-md-6">
+    {{loadedItem.description}}
+  </div>
+</div>
+
+<div  class="row">
+  <div class="col-md-4">
+    <h2>Status</h2>
+  </div>
+  <div class="col-md-6">
+    {{loadedItem.status}}
+  </div>
+</div>
+
+<div  class="row">
+  <div *ngFor="let photo of loadedItem.photos" class="example-card col-md-3">
+    <img [src]="photo.url" [alt]="loadedItem.title" class="img-thumbnail">
+
+  </div>
+</div>
+

@@ -1,0 +1,45 @@
+<mat-toolbar>
+  <mat-toolbar-row>
+
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item [routerLink]="['/user/offers-management']">
+        <mat-icon>dialpad</mat-icon>
+        <span>Mes Offres</span>
+      </button>
+      <button mat-menu-item [routerLink]="['/user/items-management']">
+        <mat-icon>dialpad</mat-icon>
+        <span>Items</span>
+      </button>
+      <button mat-menu-item [routerLink]="['/user/proposales-management']">
+        <mat-icon>dialpad</mat-icon>
+        <span>Mes propositions</span>
+      </button>
+
+      <button mat-menu-item [routerLink]="['/user/contracts-management']">
+        <mat-icon>dialpad</mat-icon>
+        <span>Mes Contrats</span>
+      </button>
+
+
+      <button mat-menu-item (click)="onLogout()">
+        <mat-icon>dialpad</mat-icon>
+        <span>Deconnexion</span>
+      </button>
+    </mat-menu>
+
+    <span class="centered-items">
+          <span class="title_style" [routerLink]="['/public/home']">MoKaYaDa</span>
+
+    </span>
+
+    <span class="right-aligned-items">
+       <button mat-fab  aria-label="Example icon button with a heart icon" [matMenuTriggerFor]="menu"   *ngIf="isAuthenticated">
+          {{authenticatedUser.firstname}}
+        </button>
+
+    <button class="btn btn-link"  *ngIf="!isAuthenticated" [routerLink]="['/login']">
+      Login
+    </button>
+    </span>
+  </mat-toolbar-row>
+</mat-toolbar>

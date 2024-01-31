@@ -1,0 +1,90 @@
+<h2 mat-dialog-title>Ajout d'un nouvel Item</h2>
+<form class="example-form" [formGroup]="form">
+  <mat-dialog-content class="mat-typography">
+
+
+    <div class="row">
+      <div class="col-md-6">
+        <mat-form-field class="example-full-width" appearance="fill">
+          <mat-label>Titre</mat-label>
+          <input matInput formControlName="title">
+          <mat-error>
+
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <mat-form-field class="example-full-width" appearance="fill">
+          <mat-label>Description</mat-label>
+          <textarea matInput placeholder="" formControlName="description"></textarea>
+          <mat-error>
+
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <mat-form-field appearance="fill">
+          <mat-label></mat-label>
+          <mat-select matNativeControl formControlName="status">
+            <mat-option *ngFor="let status of statusList"
+                        [value]=status>{{status}}
+            </mat-option>
+          </mat-select>
+          <mat-error>
+
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="row">
+      <div *ngIf="isSavingItem">
+        <h4> Enregistremen tde L'item en cours</h4>
+        <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+      </div>
+      <div *ngIf="isSavingImages">
+        <h4>Enregistrement de l'image en cours</h4>
+        <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+      </div>
+      <div class="col-md-12">
+        <div class="row">
+          <div class="col-md-2 productAddfromImages" *ngFor='let url of imageurls; let i = index'>
+            <img class="img-thumbnail" [src]="url.base64String">
+            <a (click)="removeImage(i)" class="btn btn-xs btn-danger">Supprimer</a>
+            <a (click)="maximizeImage(url.base64String)" class="btn btn-xs btn-primary">maximiser</a>
+          </div>
+        </div>
+      </div>
+      <div class="card main-title">
+        <div class="col-md-md-12">
+          <div class="form-group">
+            <br>
+            <label class="form-label">Ajouter image</label>
+            <input
+              [disabled]="imageurls.length >= 3"
+              type="file"
+              class="form-control"
+              (change)="onSelectFile($event)"
+               accept="image/*"/>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <mat-error *ngIf=errorMessage>
+      <div [innerHTML]="errorMessage"></div>
+    </mat-error>
+
+
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close [disabled]="isSavingItem || isSavingImages ">Annuler</button>
+    <button mat-button cdkFocusInitial (click)="onSaveItem() "
+            [disabled]="isSavingItem || isSavingImages || !form.valid || imageurls.length == 0">Ajouter
+    </button>
+  </mat-dialog-actions>
+</form>

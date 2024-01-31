@@ -1,0 +1,60 @@
+<div class="row">
+  <div class="col">
+    <div class="example-button-container">
+      <button mat-mini-fab color="accent" aria-label="Example icon button with a plus one icon" (click)="onAddItem()">
+        <mat-icon>plus_one</mat-icon>
+      </button>
+    </div>
+  </div>
+</div>
+<h2 class="text-info">Mes Items:</h2>
+<mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
+<div class="row align-content-center" *ngIf="!isLoading && loadedItemsPage?.content.length==0">
+  <div class="col-md-4 offset-md-4">
+    <H2 class="font-weight-bold text-info">
+      aucun Item disponible. Ajouter des Items pour pouvoir prsenter des offres ou des propositions
+    </H2>
+  </div>
+</div>
+<div class="row" *ngIf="!isLoading">
+  <div class="col-md-3" *ngFor="let item of loadedItemsPage?.content; let index = index">
+    <mat-card class="example-card" (click)="goToDetails(item.id)" >
+      <mat-card-header>
+        <mat-card-title-group>
+          <mat-card-title>{{item?.title}}</mat-card-title>
+
+          <img mat-card-md-image [src]="item?.photos[0]?.url"  [alt]="item?.photos[0]?.title">
+        </mat-card-title-group>
+      </mat-card-header>
+      <mat-card-content>
+        <p class="text-black-50">{{item?.creationDate | date:'medium'}}</p>
+        <p> {{item?.description}}</p>
+        <mat-divider></mat-divider>
+      </mat-card-content>
+      <mat-card-actions>
+        <div class="btn-group" role="group" aria-label="Basic example">
+        <button class="btn btn-link" (click)="onDetails(item.id,item.title)" >Details</button>
+        <button  class="btn btn-danger" (click)="onDelete(item.id,item.title)" >Supprimer</button>
+        </div>
+      </mat-card-actions>
+      <mat-card-footer>
+
+      </mat-card-footer>
+    </mat-card>
+  </div>
+
+</div>
+<div class="row">
+  <div class="col">
+
+
+    <mat-paginator [length]="loadedItemsPage?.totalElements"
+                   [pageSize]="size"
+                   [pageIndex]="page"
+                   [pageSizeOptions]="[5, 10, 25, 100]"
+                   (page)="onPaginatorChange($event)"
+                   aria-label="Select page"
+                   showFirstLastButtons>
+    </mat-paginator>
+
+  </div>

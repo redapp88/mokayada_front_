@@ -1,9 +1,10 @@
+
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "mokayada_front_v2": {
+    "mokayada_front2": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -13,7 +14,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/mokayada_front_v2",
+            "outputPath": "dist/mokayada_front2",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": [
@@ -25,22 +26,28 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.css"
+
+              "@angular/material/prebuilt-themes/indigo-pink.css",
+              "./src/styles.css",
+              "./node_modules/bootstrap/dist/css/bootstrap.min.css"
             ],
-            "scripts": []
+            "scripts": [
+              "./node_modules/jquery/dist/jquery.min.js",
+              "./node_modules/bootstrap/dist/js/bootstrap.min.js"
+            ]
           },
           "configurations": {
             "production": {
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kb",
-                  "maximumError": "1mb"
+                  "maximumWarning": "2mb",
+                  "maximumError": "4mb"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "2kb",
-                  "maximumError": "4kb"
+                  "maximumWarning": "2mb",
+                  "maximumError": "4mb"
                 }
               ],
               "outputHashing": "all"
@@ -60,10 +67,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "mokayada_front_v2:build:production"
+              "browserTarget": "mokayada_front2:build:production"
             },
             "development": {
-              "browserTarget": "mokayada_front_v2:build:development"
+              "browserTarget": "mokayada_front2:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -71,7 +78,8 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "mokayada_front_v2:build"
+            "browserTarget": "mokayada_front2:build"
+
           }
         },
         "test": {
@@ -87,12 +95,20 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.css"
+              "@angular/material/prebuilt-themes/indigo-pink.css",
+              "src/styles.css",
+              "./node_modules/bootstrap/dist/css/bootstrap.min.css"
             ],
-            "scripts": []
+            "scripts": [
+              "./node_modules/jquery/dist/jquery.min.js",
+              "./node_modules/bootstrap/dist/js/bootstrap.min.js"
+            ]
           }
         }
       }
     }
+  },
+  "cli": {
+    "analytics": "ae9f75c6-a8c4-4fa0-b872-9db650fb6764"
   }
 }

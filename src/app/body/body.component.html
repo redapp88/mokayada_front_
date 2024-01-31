@@ -1,0 +1,93 @@
+<div class="container-fluid">
+
+  <h2 class="text-info:">Dernieres offres</h2>
+
+  <form class="example-form" [formGroup]="form">
+    <div class="row">
+      <div class="col-md-3">
+        <mat-form-field>
+          <mat-label>Ville</mat-label>
+          <mat-select formControlName="city">
+            <mat-option *ngFor="let city of cities" [value]="city.value">{{city.name}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+
+      <div class="col-md-3">
+        <mat-form-field>
+          <mat-label>Categories</mat-label>
+          <mat-select formControlName="categorie">
+            <mat-option *ngFor="let categorie of categories" [value]="categorie.value">{{categorie.name}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+
+      <div class="col-md-3">
+        <mat-form-field class="example-full-width" appearance="fill">
+          <mat-label>Keyword</mat-label>
+          <input matInput formControlName="keyword"/>
+          <mat-error>
+
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-md-2">
+        <button class="btn btn-primary btn-lg btn-block" (click)="onLoadOffers()">Chercher</button>
+      </div>
+
+    </div>
+  </form>
+
+  <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
+  <div class="row align-content-center" *ngIf="!isLoading && loadOffersPage?.content.length==0">
+    <div class="col-md-4 offset-md-4">
+      <H2 class="font-weight-bold text-info">
+        aucune offre disponible
+      </H2>
+    </div>
+  </div>
+  <div class="row" *ngIf="!isLoading">
+    <div class="col-md-4" *ngFor="let offer of loadOffersPage?.content; let index = index" style="padding-top: 15px">
+      <mat-card class="example-card" *ngIf="offer.items.length>0">
+        <mat-card-header>
+          <mat-card-title-group>
+            <mat-card-title (click)="onDetailsOffer(offer)" style="cursor: pointer">{{offer?.title}}</mat-card-title>
+            <mat-card-subtitle>Par: {{offer.owner.firstName}} {{offer.owner.lastName}}</mat-card-subtitle>
+            <img mat-card-md-image [src]="offer?.items[0]?.photos[0]?.url" [alt]="offer?.title">
+          </mat-card-title-group>
+        </mat-card-header>
+        <mat-card-content>
+          <span class="font-weight-bold"> {{offer.creationDate | date:"dd/MM/yyyy 'à' hh:mm"}}</span>
+          <mat-divider></mat-divider>
+        </mat-card-content>
+        <mat-card-actions>
+          <button color="primary" mat-mini-fab aria-label="Details" (click)="onDetailsOffer(offer)">
+            <mat-icon>launch</mat-icon>
+          </button>
+          <button *ngIf="authSertvice.curentUser && isAlreadyMadeProposale(offer)" class="btn btn-warning"
+                  (click)="onUpdateProposal(offer)">Changer ma proposition
+          </button>
+          <button *ngIf="authSertvice.curentUser && !isAlreadyMadeProposale(offer)" class=" btn btn-link"
+                  (click)="onAddProposal(offer)">Proposer une offre
+          </button>
+        </mat-card-actions>
+        <mat-card-footer>
+
+        </mat-card-footer>
+      </mat-card>
+    </div>
+
+  </div>
+  <mat-paginator [length]="loadOffersPage?.numberOfElements"
+                 [pageSize]="size"
+                 [pageIndex]="page"
+                 [pageSizeOptions]="[5, 10, 25, 100]"
+                 (page)="onPaginatorChange($event)"
+                 aria-label="Select page"
+                 showFirstLastButtons>
+  </mat-paginator>
+
+</div>
+

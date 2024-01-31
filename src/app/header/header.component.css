@@ -1,0 +1,30 @@
+.mat-toolbar-row {
+  display: flex;
+  align-items: center; /* Alignement vertical au centre */
+}
+
+.centered-items {
+  flex: 1; /* Étend l'élément pour occuper l'espace disponible */
+  text-align: center; /* Alignement horizontal au centre */
+}
+
+.right-aligned-items {
+  margin-left: auto; /* Pousse l'élément à droite */
+}
+
+.spacer {
+  flex: 1; /* Crée un espace flexible entre les éléments */
+}
+.title_style{
+  font-size:xx-large;
+  font-family: "Comic Sans MS";
+  font-weight: bold;
+  color: orange;
+  align-content: center;
+  cursor: pointer;
+}
+
+.mat-toolbar {
+  background-color:#f2f1f3;
+  border-bottom: wheat medium 1px;
+}

@@ -1,0 +1,159 @@
+
+<div class="row">
+  <div class="col-md-4 offset-md-4">
+  <button mat-raised-button (click)="isLinear = !isLinear" id="toggle-linear">
+  {{!isLinear ? 'Enable linear mode' : 'Disable linear mode'}}
+</button>
+<mat-stepper orientation="vertical" [linear]="isLinear" #stepper>
+  <mat-step [stepControl]="formInfo">
+    <form [formGroup]="formInfo">
+      <ng-template matStepLabel>Information Personelles</ng-template>
+      <div class="row">
+      <mat-form-field>
+        <mat-label>Prénom</mat-label>
+        <input matInput placeholder="Prénom" formControlName="firstName" required>
+      </mat-form-field>
+      </div>
+      <div  class="invalid-feedback d-block"
+            *ngIf="formInfo.controls.firstName.invalid && (formInfo.controls.firstName.dirty || formInfo.controls.firstName.touched)">
+        <div *ngIf="formInfo.controls.firstName.errors?.['required']">le prénom est requis.</div>
+        <div *ngIf="formInfo.controls.firstName.errors?.['minlength']"> le prénom doit comporter 2 caractères minimum.</div>
+        <div *ngIf="formInfo.controls.firstName.errors?.['maxlength']"> le prénom doit comporter 20 caractères maximum.</div>
+        <div *ngIf="formInfo.controls.firstName.errors?.['lettresSeulement']">Le prénom ne doit contenir que des lettres.</div>
+      </div>
+      <div class="row">
+      <mat-form-field>
+        <mat-label>Nom</mat-label>
+        <input matInput placeholder="Nom de famille" formControlName="lastName" required>
+      </mat-form-field>
+      </div>
+      <div  class="invalid-feedback d-block"
+            *ngIf="formInfo.controls.lastName.invalid && (formInfo.controls.lastName.dirty || formInfo.controls.lastName.touched)">
+        <div *ngIf="formInfo.controls.lastName.errors?.['required']">le nom est requis.</div>
+        <div *ngIf="formInfo.controls.lastName.errors?.['minlength']"> le nom doit comporter 2 caractères minimum.</div>
+        <div *ngIf="formInfo.controls.lastName.errors?.['maxlength']"> le nom doit comporter 30 caractères maximum.</div>
+        <div *ngIf="formInfo.controls.lastName.errors?.['lettresSeulement']">Le nom ne doit contenir que des lettres.</div>
+      </div>
+      <div class="row">
+        <mat-form-field>
+          <mat-label>Sexe</mat-label>
+          <select matNativeControl required  formControlName="sex">
+            <option value="Masculin">Masculin</option>
+            <option value="Feminin">Feminin</option>
+          </select>
+        </mat-form-field>
+      </div>
+      <div class="row">
+        <mat-form-field>
+          <mat-label style="-webkit-text-fill-color: black">Date de naissance</mat-label>
+          <input matInput [matDatepicker]="picker" style="-webkit-text-fill-color: black"  formControlName="birthDate" [max]="today" [min]="oldestDate" (dateInput)="showDate()" >
+          <mat-datepicker-toggle matIconSuffix [for]="picker" ></mat-datepicker-toggle>
+          <mat-datepicker #picker disabled="false" ></mat-datepicker>
+        </mat-form-field>
+      </div>
+      <div  class="invalid-feedback d-block"
+            *ngIf="formInfo.controls.birthDate.invalid && (formInfo.controls.birthDate.dirty || formInfo.controls.birthDate.touched)">
+        <div *ngIf="formInfo.controls.birthDate.errors?.['required']"> La date de naissance est requise.</div>
+      </div>
+      <div>
+        <button mat-button matStepperNext [disabled]="!formInfo.valid">Suivant</button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step [stepControl]="formContact">
+    <form [formGroup]="formContact">
+      <ng-template matStepLabel>Contact</ng-template>
+      <div class="row">
+        <mat-form-field>
+          <mat-label>Email</mat-label>
+          <input matInput placeholder="Email" formControlName="email" >
+        </mat-form-field>
+      </div>
+      <div  class="invalid-feedback d-block"
+            *ngIf="formContact.controls.email.invalid && (formContact.controls.email.dirty || formContact.controls.email.touched)">
+        <div *ngIf="formContact.controls.email.errors?.['required']">l'adresse Email est requis.</div>
+        <div *ngIf="formContact.controls.email.errors?.['email']"> La forme de l'email n'est pas correcte.</div>
+      </div>
+      <div class="row">
+        <mat-form-field>
+          <mat-label>Téléphone</mat-label>
+          <input matInput placeholder="Téléphone" formControlName="phone">
+        </mat-form-field>
+      </div>
+      <div  class="invalid-feedback d-block"
+            *ngIf="formContact.controls.phone.invalid  && (formContact.controls.phone.dirty || formContact.controls.phone.touched)">
+        <div *ngIf="formContact.controls.phone.errors?.['required']">le numéro de téléphone est requis.</div>
+        <div *ngIf="formContact.controls.phone.errors?.['pattern']"> Le numéro de téléphone n'est pas valide.</div>
+      </div>
+
+
+      <div>
+        <button mat-button matStepperPrevious>Retour</button>
+        <button mat-button matStepperNext [disabled]="!formContact.valid">Suivant</button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step [stepControl]="formAuth">
+    <form [formGroup]="formAuth">
+      <ng-template matStepLabel>Authentication</ng-template>
+      <div class="row">
+      <mat-form-field>
+        <mat-label>Nom d'utilisateur</mat-label>
+        <input matInput formControlName="username" placeholder=""
+               required>
+      </mat-form-field>
+      </div>
+      <div  class="invalid-feedback d-block"
+            *ngIf="formAuth.controls.username.invalid  &&  (formAuth.controls.username.dirty || formAuth.controls.username.touched)">
+        <div *ngIf="formAuth.controls.username.errors?.['required']">le nom d'utilisateur est requis.</div>
+        <div *ngIf="formAuth.controls.username.errors?.['pattern']"> Le nom d'utilisateur doit commencer par une lettre et avoir au moins 5 caractères.</div>
+      </div>
+      <div class="row">
+        <mat-form-field>
+          <mat-label>Mot de passe</mat-label>
+          <input matInput formControlName="password" placeholder=""  type="password"
+                 required>
+        </mat-form-field>
+      </div>
+      <div  class="invalid-feedback d-block"
+            *ngIf="formAuth.controls.password.invalid  &&  (formAuth.controls.password.dirty || formAuth.controls.password.touched)">
+        <div *ngIf="formAuth.controls.password.errors?.['required']">le mot de passe est requis.</div>
+        <div *ngIf="formAuth.controls.password.errors?.['pattern']"> Le mot de passe doit contenir au moins 8 caractères avec des majuscules, des minuscules, des chiffres et des caractères spéciaux..</div>
+      </div>
+
+      <div class="row">
+        <mat-form-field>
+          <mat-label>Confirmation</mat-label>
+          <input matInput formControlName="repassword" placeholder="Confirmation" type="password"
+                 required>
+        </mat-form-field>
+      </div>
+      <div  class="invalid-feedback d-block"
+            *ngIf="formAuth.controls.repassword.invalid  &&  (formAuth.controls.repassword.dirty || formAuth.controls.repassword.touched)">
+        <div *ngIf="formAuth.controls.repassword.errors?.['required']">le confirmation du mot de passe est requise.</div>
+        <div *ngIf="formAuth.controls.repassword.errors?.['nonCorrespondant']"> Les champs du mot de passe ne correspondent pas.</div>
+      </div>
+      <div  class="valid-feedback d-block"
+            *ngIf="formAuth.controls.repassword.valid ">
+        <div>la confirmation correspond.</div>
+
+      </div>
+      <div>
+        <button mat-button matStepperPrevious>Retour</button>
+        <button mat-button matStepperNext [disabled]="!formAuth.valid">Suivant</button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step>
+    <ng-template matStepLabel>Terminer</ng-template>
+    <p class="font-weight-bold" >C'est terminé!</p>
+    <div>
+      <button mat-button matStepperPrevious>Retour</button>
+<!--      <button mat-button (click)="stepper.reset()">Réinitialiser</button>-->
+
+      <button mat-button  [disabled]="!formAuth.valid || !formContact.valid || !formAuth.valid " (click)="onSubscibe()">Envoyer</button>
+    </div>
+  </mat-step>
+</mat-stepper>
+  </div>
+</div>

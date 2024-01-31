@@ -1,0 +1,18 @@
+<h1> Les proposition actuelement ouvertes</h1>
+<div class="row">
+  <div class="col-md-8 col-md-offset-2">
+    <mat-list>
+      <mat-list-item *ngFor="let pwo of loadedProposales">
+        <span matListItemTitle>Votre :{{pwo.proposal.title}}</span>
+        <span matListItemLine>Posté par:{{pwo.offer.owner.firstName }} {{pwo.offer.owner.lastName }} à {{pwo.offer.creationDate | date:'dd/MM/yyyy à hh:mm' }}</span>
+        <span matListItemLine>
+
+  <button mat-raised-button color="primary" (click)="onDetails(pwo.offer)">Details</button>
+  <button mat-raised-button color="accent" (click)="onDelete(pwo.proposal)">Supprimer</button>
+
+        </span>
+      </mat-list-item>
+    </mat-list>
+
+  </div>
+</div>

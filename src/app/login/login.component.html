@@ -1,0 +1,61 @@
+<form [formGroup]="form">
+  <div class="row">
+    <div class="col-md-4 offset-md-4 col-sm-8 offset-sm-2 form-group">
+      <label for="exampleInputEmail1">Nom d'utilisateur</label>
+      <input type="email" class="form-control" id="exampleInputEmail1" formControlName="username"
+             placeholder="Nom d'utilisateur"
+             [ngClass]="{ 'is-invalid': (form.controls.username.invalid && (form.controls.username.dirty || form.controls.username.touched)) }">
+      <!-- Validation messages -->
+      <div class="invalid-feedback"
+           *ngIf="form.controls.username.invalid && (form.controls.username.dirty || form.controls.username.touched)">
+
+        <div *ngIf="form.controls.username.errors?.['required']">entrer le nom d'utilisateur</div>
+        <div *ngIf="form.controls.username.errors?.['minlength']">4 caractère minimum</div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-4 offset-md-4 col-sm-8 offset-sm-2 form-group">
+      <label for="exampleInputPassword1">Mot de passe</label>
+      <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Mot de passe"
+             formControlName="password"
+             [ngClass]="{ 'is-invalid': (form.controls.password.invalid && (form.controls.password.dirty || form.controls.password.touched)) }">
+      <span class="floating-label">Your email address</span>
+      <div class="invalid-feedback"
+           *ngIf="form.controls.password.invalid && (form.controls.password.dirty || form.controls.password.touched)">
+
+        <div *ngIf="form.controls.password.errors?.['required']">entrer le mot de passe</div>
+        <div *ngIf="form.controls.password.errors?.['minlength']">8 caractère minimum</div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-4 offset-4 form-check">
+      <input type="checkbox" class="form-check-input" id="exampleCheck1">
+      <label class="form-check-label" for="exampleCheck1">Rester connecté</label>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-2 offset-5 form-check" style="text-align:center">
+
+      <div style="text-align:center">
+        <button mat-raised-button color="primary" class="btn btn-primary btn-lg btn-block" [class.spinner]="isLoading" [disabled]="isLoading"
+                (click)="onLogin()">Se connecter
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="row" style="margin-top:15px;">
+  <div class="col-2 offset-5 form-check" style="text-align:center">
+    <div style="text-align:center">
+        <button mat-raised-button class="btn btn-link btn-lg btn-block" [disabled]="isLoading"
+                [routerLink]="['/subscribe']">Inscription
+        </button>
+      </div>
+
+
+
+      <small class="alert-danger">{{errorMessage}}</small>
+    </div>
+  </div>
+</form>

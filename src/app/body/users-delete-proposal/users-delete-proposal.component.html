@@ -1,0 +1,18 @@
+<h2 mat-dialog-title>Suppression de </h2>
+
+<mat-dialog-content class="mat-typography">
+  <div class="row">
+    <div class="col">
+      <p>{{loadedProposal.title}}</p>
+    </div>
+  </div>
+  <mat-error *ngIf=errorMessage>
+    {{errorMessage}}
+  </mat-error>
+  <mat-progress-bar mode="indeterminate" *ngIf="isLoading"></mat-progress-bar>
+
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close [disabled]="isLoading">Annuler</button>
+  <button mat-button  cdkFocusInitial (click)="onDeleteProposal() " [disabled]="isLoading">Supprimer</button>
+</mat-dialog-actions>

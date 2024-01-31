@@ -1,0 +1,83 @@
+<div class="text-center font-weight-bold text-info"><h1>Details de l'offre: {{loadedOffer.title}}</h1></div>
+<div class="row">
+  <div class="col-md-2 offset-md-3 col-sm-4">
+    <span class="font-weight-bold text-lg-left">Titre</span>
+  </div>
+  <div class="col-md-3 col-sm-4">
+    <span>:{{loadedOffer.title}}</span>
+  </div>
+</div>
+
+
+<div class="row">
+  <div class="col-md-2 offset-md-3">
+    <span class="font-weight-bold">Description</span>
+  </div>
+  <div class="col-md-3">
+    <span>:{{loadedOffer.description}}</span>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-2 offset-md-3">
+    <span class="font-weight-bold" >Date de création</span>
+  </div>
+  <div class="col-md-3">
+    <span>:{{loadedOffer.creationDate |  date:"dd/MM/yyyy 'à' hh:mm" }}</span>
+  </div>
+</div>
+
+
+<div class="row">
+  <div class="col-md-2 offset-md-3">
+    <span class="font-weight-bold">Ville</span>
+  </div>
+  <div class="col-md-3">
+    :<span>{{loadedOffer.city }}</span>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-2 offset-md-3">
+    <span class="font-weight-bold">Categorie</span>
+  </div>
+  <div class="col-md-3">
+    :<span>{{loadedOffer.categorie }}</span>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-2 offset-md-3">
+    <span class="font-weight-bold" >Posté par</span>
+  </div>
+  <div class="col-md-3">
+    :<span>{{loadedOffer.owner.firstName }} {{loadedOffer.owner.lastName }}</span>
+  </div>
+</div>
+
+    <div class="row" >
+      <div class="col-md-4" *ngFor="let item of loadedOffer.items; let index = index">
+        <mat-card class="example-card" (click)="onDetailsItem(item)">
+          <mat-card-header>
+            <mat-card-title-group>
+              <mat-card-title><p class="font-weight-bold text-secondary">{{item?.title}}</p></mat-card-title>
+
+              <img mat-card-md-image [src]="item?.photos[0]?.url" >
+            </mat-card-title-group>
+          </mat-card-header>
+          <mat-card-content>
+            <p> {{item?.description}}</p>
+            <p class="font-weight-bold text-black-50"> {{item?.photos.length}} photos disponibles</p>
+          </mat-card-content>
+          <mat-card-footer>
+
+          </mat-card-footer>
+        </mat-card>
+      </div>
+
+    </div>
+
+  <mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Fermer</button>
+  </mat-dialog-actions>
+

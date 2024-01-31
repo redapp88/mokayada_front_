@@ -1,0 +1,14 @@
+
+<h1 mat-dialog-title>
+  Confirmation
+</h1>
+
+<div mat-dialog-content>
+  <p>Voulez vous vraiment supprimer cette offre? attention en cas de suppression vous perdez toutes les propositions reçus</p>
+</div>
+
+<div mat-dialog-actions>
+  <button mat-button (click)="onDismiss()">Non</button>
+  <button mat-raised-button color="primary" (click)="onConfirm()">Oui</button>
+</div>
+<p>{{errorMessage}}</p>
