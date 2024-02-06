@@ -1,47 +1,49 @@
-<div class="container-fluid"><div class="row">
-  <div class="col-6 offset-3" align="center">
-    <h1 *ngIf="mode == 'new'" class="text-success font-weight-bold">Felicitation!! Contrat conclus</h1>
-    <h1 *ngIf="mode == 'mines' || mode == 'received'" class="text-success font-weight-bold">Contrat conclus</h1>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-6 offset-3" align="center">
+      <h1 *ngIf="mode == 'new'" class="text-success font-weight-bold">Felicitation!! Contrat conclus</h1>
+      <h1 *ngIf="mode == 'mines' || mode == 'received'" class="text-success font-weight-bold">Contrat conclus</h1>
+    </div>
   </div>
-</div>
-<div class="row">
-  <div class="col-md-8">
-    <h1 class="font-weight-bold" *ngIf="mode == 'mines' || mode == 'new'">Votre Offre:</h1>
-    <h1 class="font-weight-bold" *ngIf="mode == 'received'">Offre de: {{loadedOffer.owner.firstName}} {{loadedOffer.owner.lastName}}</h1>
-  </div>
-  <div class="col-md-4" align="right">
+  <div class="row">
+    <div class="col-md-8">
+      <h1 class="font-weight-bold" *ngIf="mode == 'mines' || mode == 'new'">Votre Offre:</h1>
+      <h1 class="font-weight-bold" *ngIf="mode == 'received'">Offre de: {{loadedOffer.owner.firstName}}
+        {{loadedOffer.owner.lastName}}</h1>
+    </div>
+    <div class="col-md-4" align="right">
 
       <button mat-mini-fab color="accent" aria-label="Example icon button with a home icon">
         <mat-icon>print</mat-icon>
       </button>
     </div>
-</div>
-<div class="row">
-  <div class="col-md-4">
-    <h3 class="font-weight-bold">Titre:</h3>
   </div>
-  <div class="8">
-    {{loadedOffer.title}}
+  <div class="row">
+    <div class="col-md-4">
+      <h3 class="font-weight-bold">Titre:</h3>
+    </div>
+    <div class="8">
+      {{loadedOffer.title}}
+    </div>
   </div>
-</div>
-<div class="row">
-  <div  class="col-md-4">
-    <h3 class="font-weight-bold" >Description:</h3>
+  <div class="row">
+    <div class="col-md-4">
+      <h3 class="font-weight-bold">Description:</h3>
+    </div>
+    <div class="font-weight-bold" class="8">
+      {{loadedOffer.description}}
+    </div>
   </div>
-  <div class="font-weight-bold" class="8">
-    {{loadedOffer.description}}
+  <div class="row">
+    <div class="col-md-4">
+      <h3 class="font-weight-bold">Date de creation:</h3>
+    </div>
+    <div class="8">
+      {{loadedOffer.creationDate | date:'dd/MM/yyyy à HH:mm'}}
+    </div>
   </div>
-</div>
-<div class="row">
-  <div class="col-md-4">
-    <h3 class="font-weight-bold">Date de creation:</h3>
-  </div>
-  <div class="8">
-    {{loadedOffer.creationDate | date:'dd/MM/yyyy à HH:mm'}}
-  </div>
-</div>
   <div *ngIf="mode == 'received'">
-    <div class="row" >
+    <div class="row">
       <div class="col-md-8">
         <h1>Contacte </h1>
       </div>
@@ -72,76 +74,86 @@
     </div>
   </div>
 
-<div class="row">
-  <div class="col-md-2" *ngFor="let item of loadedOffer.items">
-    <span class="btn btn-secondary" (click)="onDetailsItem(item)">{{item.title}}</span>
+  <div class="row">
+    <div class="col-md-3" *ngFor="let item of loadedOffer.items">
+    <div class="btn btn-secondary" (click)="onDetailsItem(item)">
+      {{item.title}}
+       <div class="icon-container font-weight-bold">
+              <img class="img-fluid icon" [src]="item?.photos[0]?.url" alt="Image">
+       </div>
+    </div>
+    </div>
   </div>
-</div>
 
-<mat-divider></mat-divider>
-<div class="row">
-  <div class="col-md-8">
-    <h1 class="font-weight-bold" *ngIf="mode == 'mines' || mode == 'new'">Proposition Acceptée</h1>
-    <h1 class="font-weight-bold" *ngIf="mode == 'received'">Votre proposition Acceptée</h1>
+  <mat-divider></mat-divider>
+  <div class="row">
+    <div class="col-md-8">
+      <h1 class="font-weight-bold" *ngIf="mode == 'mines' || mode == 'new'">Proposition Acceptée</h1>
+      <h1 class="font-weight-bold" *ngIf="mode == 'received'">Votre proposition Acceptée</h1>
+    </div>
   </div>
-</div>
-<div class="row">
-  <div class="col-md-4">
-    <h3 class="font-weight-bold">Titre:</h3>
+  <div class="row">
+    <div class="col-md-4">
+      <h3 class="font-weight-bold">Titre:</h3>
+    </div>
+    <div class="8">
+      {{loadedProposal.title}}
+    </div>
   </div>
-  <div class="8">
-    {{loadedProposal.title}}
-  </div>
-</div>
 
-<div class="row">
-  <div class="col-md-4">
-    <h3 class="font-weight-bold">Date de creation:</h3>
+  <div class="row">
+    <div class="col-md-4">
+      <h3 class="font-weight-bold">Date de creation:</h3>
+    </div>
+    <div class="8">
+      {{loadedProposal.creationDate | date:'dd/MM/yyyy à HH:mm'}}
+    </div>
   </div>
-  <div class="8">
-    {{loadedProposal.creationDate | date:'dd/MM/yyyy à HH:mm'}}
+  <div class="row">
+    <div class="col-md-2" *ngFor="let item of loadedProposal.items">
+      <span class="btn btn-primary" (click)="onDetailsItem(item)">
+        {{item.title}}
+       <div class="icon-container font-weight-bold">
+              <img class="img-fluid icon" [src]="item?.photos[0]?.url" alt="Image">
+       </div>
+      </span>
+    </div>
   </div>
-</div>
-<div class="row">
-  <div class="col-md-2" *ngFor="let item of loadedProposal.items">
-    <span class="btn btn-primary" (click)="onDetailsItem(item)">{{item.title}}</span>
-  </div>
-</div>
-<mat-divider></mat-divider>
+  <mat-divider></mat-divider>
   <div *ngIf="mode == 'mines' || mode == 'new'">
-<div class="row" >
-  <div class="col-md-8">
-    <h1>Contacte </h1>
+    <div class="row">
+      <div class="col-md-8">
+        <h1>Contacte </h1>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4">
+        <h3 class="font-weight-bold">Nom complet:</h3>
+      </div>
+      <div class="8">
+        {{loadedProposal.owner.firstName}} {{loadedProposal.owner.lastName}}
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4">
+        <h3 class="font-weight-bold">Email:</h3>
+      </div>
+      <div class="8">
+        {{loadedProposal.owner.email}}
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4">
+        <h3 class="font-weight-bold">Telephone:</h3>
+      </div>
+      <div class="8">
+        {{loadedProposal.owner.phone}}
+      </div>
+    </div>
   </div>
-</div>
-<div class="row">
-  <div class="col-md-4">
-    <h3 class="font-weight-bold">Nom complet:</h3>
+  <div class="row">
+    <div class="col">
+      <small> une copie de ce reçu est envoyé a votre a adresse Email</small>
+    </div>
   </div>
-  <div class="8">
-    {{loadedProposal.owner.firstName}} {{loadedProposal.owner.lastName}}
-  </div>
-</div>
-<div class="row">
-  <div class="col-md-4">
-    <h3 class="font-weight-bold">Email:</h3>
-  </div>
-  <div class="8">
-    {{loadedProposal.owner.email}}
-  </div>
-</div>
-<div class="row">
-  <div class="col-md-4">
-    <h3 class="font-weight-bold">Telephone:</h3>
-  </div>
-  <div class="8">
-    {{loadedProposal.owner.phone}}
-  </div>
-</div>
-  </div>
-<div class="row">
-  <div class="col">
-    <small > une copie de ce reçu est envoyé a votre a adresse Email</small>
-  </div>
-</div>
 </div>

@@ -46,18 +46,29 @@
   </div>
 </div>
 
-<div class="row">
+<div class="row" (click)="onDetailsUser(loadedOffer.owner)" style="cursor:pointer;">
   <div class="col-md-2 offset-md-3">
     <span class="font-weight-bold" >Posté par</span>
   </div>
   <div class="col-md-3">
-    :<span>{{loadedOffer.owner.firstName }} {{loadedOffer.owner.lastName }}</span>
+    :<span class="btn-link">{{loadedOffer.owner.firstName }} {{loadedOffer.owner.lastName }}</span>
   </div>
 </div>
 
     <div class="row" >
       <div class="col-md-4" *ngFor="let item of loadedOffer.items; let index = index">
-        <mat-card class="example-card" (click)="onDetailsItem(item)">
+
+
+        <div class="card" style="width: 12rem;cursor: pointer" (click)="onDetailsItem(item)">
+          <img class="img-thumbnail" [src]="item?.photos[0]?.url" alt="Card image cap" style="align-items: center">
+          <div class="card-body">
+            <p class="font-weight-bold"> {{item?.title}}</p>
+            <p> {{item?.description}}</p>
+            <p class="font-weight-bold text-success"> {{item?.photos.length}} photos disponibles</p>
+          </div>
+        </div>
+
+       <!-- <mat-card class="example-card" (click)="onDetailsItem(item)">
           <mat-card-header>
             <mat-card-title-group>
               <mat-card-title><p class="font-weight-bold text-secondary">{{item?.title}}</p></mat-card-title>
@@ -72,7 +83,7 @@
           <mat-card-footer>
 
           </mat-card-footer>
-        </mat-card>
+        </mat-card>-->
       </div>
 
     </div>

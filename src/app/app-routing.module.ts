@@ -11,6 +11,8 @@ import {UsersItemsManagementComponent} from "./user/users-items-management/users
 import {UsersProposalManagementComponent} from "./user/users-proposal-management/users-proposal-management.component";
 import {UsersContractManagementComponent} from "./user/users-contract-management/users-contract-management.component";
 import {SubscribeComponent} from "./public/subscribe/subscribe.component";
+import {ProfileManagementComponent} from "./user/profile-management/profile-management.component";
+import {PasswordEditComponent} from "./user/profile-management/password-edit/password-edit.component";
 
 const routes: Routes = [
   { path: '', redirectTo: 'public/home', pathMatch: 'full' },
@@ -64,6 +66,18 @@ const routes: Routes = [
     children: [
       {path: '', component: HeaderComponent, outlet: 'page_header'},
       {path: '', component: UsersContractManagementComponent, outlet: 'page_body'},
+      {path: '', component: FooterComponent, outlet: 'page_footer'},
+    ]},
+  {path: 'user/profile-management',canActivate:[UserGuard],
+    children: [
+      {path: '', component: HeaderComponent, outlet: 'page_header'},
+      {path: '', component: ProfileManagementComponent, outlet: 'page_body'},
+      {path: '', component: FooterComponent, outlet: 'page_footer'},
+    ]},
+  {path: 'user/edit-password',canActivate:[UserGuard],
+    children: [
+      {path: '', component: HeaderComponent, outlet: 'page_header'},
+      {path: '', component: PasswordEditComponent, outlet: 'page_body'},
       {path: '', component: FooterComponent, outlet: 'page_footer'},
     ]},
   ]

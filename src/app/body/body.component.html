@@ -49,8 +49,9 @@
     </div>
   </div>
   <div class="row" *ngIf="!isLoading">
-    <div class="col-md-4" *ngFor="let offer of loadOffersPage?.content; let index = index" style="padding-top: 15px">
-      <mat-card class="example-card" *ngIf="offer.items.length>0">
+
+    <div class="col-md-3" *ngFor="let offer of loadOffersPage?.content; let index = index" style="padding-top: 15px">
+      <mat-card class="example-card" >
         <mat-card-header>
           <mat-card-title-group>
             <mat-card-title (click)="onDetailsOffer(offer)" style="cursor: pointer">{{offer?.title}}</mat-card-title>

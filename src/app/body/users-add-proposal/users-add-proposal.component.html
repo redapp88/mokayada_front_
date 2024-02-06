@@ -1,16 +1,16 @@
-<div class="container align-items-center justify-content-center">
-  <h1 class="color:success">Propsoer une offre Pour:</h1>
+<div class="container center">
+  <h1 class="text-info font-weight-bold">Proposer une offre Pour:</h1>
 <h1>{{loadedOffer?.title}}</h1>
 <p>{{loadedOffer?.description}}</p>
 </div>
+
 <mat-progress-bar *ngIf="isLoadingLoadedOfferItems" mode="indeterminate"></mat-progress-bar>
 <div class="row" *ngIf="!isLoadingLoadedOfferItems">
-  <div class="col-4" *ngFor="let item of loadedOfferItems ; let index = index">
+  <div class="col-md-4" *ngFor="let item of loadedOfferItems ; let index = index">
     <mat-card class="example-card" >
       <mat-card-header>
         <mat-card-title-group>
           <mat-card-title>{{item?.title}}</mat-card-title>
-          <mat-card-subtitle>{{item?.id}}</mat-card-subtitle>
 
           <img mat-card-md-image [src]="item?.photos[0]?.url"  [alt]="item?.photos[0]?.title">
         </mat-card-title-group>
@@ -20,7 +20,7 @@
         <mat-divider></mat-divider>
       </mat-card-content>
       <mat-card-actions>
-        <button mat-button >Details</button>
+        <button mat-button (click)="onDetailsItem(item)" >Details</button>
       </mat-card-actions>
       <mat-card-footer>
 
@@ -32,7 +32,7 @@
 <mat-progress-bar *ngIf="isLoadingAllUsersItems" mode="indeterminate"></mat-progress-bar>
 <div class="row" *ngIf="!isLoadingAllUsersItems">
 
-  <div class="col-12">
+  <div class="col-md-12">
 
     <div class="example-container">
       <h2>Offres a proposer</h2>
@@ -46,7 +46,11 @@
         class="example-list"
         (cdkDropListDropped)="drop($event)">
 
-        <div class="example-box bg-success" *ngFor="let item of proposedItems" cdkDrag>{{item.title}}</div>
+        <div class="example-box bg-success" *ngFor="let item of proposedItems" cdkDrag>
+
+          <p>{{item.title}}</p>
+          <img mat-card-md-image [src]="item?.photos[0]?.url" >
+        </div>
       </div>
     </div>
   </div>
@@ -65,7 +69,10 @@
         class="example-list"
         (cdkDropListDropped)="drop($event)">
 
-        <div class="example-box bg-primary " *ngFor="let item of allUsersItems" cdkDrag>{{item.title}}</div>
+        <div class="example-box bg-primary " *ngFor="let item of allUsersItems" cdkDrag>
+          <p>{{item.title}}</p>
+          <img mat-card-md-image [src]="item?.photos[0]?.url" >
+        </div>
       </div>
     </div>
     <div class="example-button-row">

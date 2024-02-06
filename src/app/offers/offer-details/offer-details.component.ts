@@ -10,6 +10,8 @@ import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog
 import {Item} from "../../models/Item.model";
 import {UsersDetailsItemComponent} from "../../user/users-items-management/users-details-item/users-details-item.component";
 import {UsersDetailsItemStaticComponent} from "../../user/users-items-management/users-details-item-static/users-details-item-static.component";
+import {AppUser} from "../../models/AppUser.model";
+import {UserInfoComponent} from "../../public/user-info/user-info.component";
 
 @Component({
   selector: 'app-offer-details',
@@ -97,6 +99,19 @@ export class OfferDetailsComponent implements OnInit {
       dialogRef.afterClosed().subscribe(result => {
 
       });
+
+
+  }
+
+  onDetailsUser(user:AppUser){
+//console.log(item)
+    const dialogRef = this.dialog.open(UserInfoComponent, {
+      data: {user:user},
+      width: "60%",
+    });
+    dialogRef.afterClosed().subscribe(result => {
+
+    });
 
 
   }

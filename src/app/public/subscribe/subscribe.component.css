@@ -6,3 +6,10 @@
   margin-top: 16px;
 }
 
+
+.custom-container .mat-horizontal-stepper, .custom-container .mat-vertical-stepper {
+  width: 600px !important;
+}
+mat-form-field {
+  display: block;
+}

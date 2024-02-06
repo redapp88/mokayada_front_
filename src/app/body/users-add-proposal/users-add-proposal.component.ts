@@ -12,6 +12,7 @@ import {Item} from "../../models/Item.model";
 import {ItemsService} from "../../services/items.service";
 import {CdkDragDrop, moveItemInArray, transferArrayItem} from "@angular/cdk/drag-drop";
 import {ProposalRequest} from "../../requests/Proposal.request";
+import {UsersDetailsItemStaticComponent} from "../../user/users-items-management/users-details-item-static/users-details-item-static.component";
 
 @Component({
   selector: 'app-users-add-proposal',
@@ -179,5 +180,18 @@ export class UsersAddProposalComponent implements OnInit {
 
   annuler(){
     this.dialogRef.close('dismiss');
+  }
+
+  onDetailsItem(item:Item){
+//console.log(item)
+    const dialogRef = this.dialog.open(UsersDetailsItemStaticComponent, {
+      data: {item:item},
+      width: "60%",
+    });
+    dialogRef.afterClosed().subscribe(result => {
+
+    });
+
+
   }
 }

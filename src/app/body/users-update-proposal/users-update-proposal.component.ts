@@ -13,6 +13,7 @@ import {UsersAddItemComponent} from "../../user/users-items-management/users-add
 import {SharedService} from "../../services/shared.service";
 import {Offer} from "../../models/Offer.model";
 import {UsersDeleteProposalComponent} from "../users-delete-proposal/users-delete-proposal.component";
+import {UsersDetailsItemStaticComponent} from "../../user/users-items-management/users-details-item-static/users-details-item-static.component";
 
 @Component({
   selector: 'app-users-update-proposal',
@@ -217,6 +218,19 @@ export class UsersUpdateProposalComponent {
         this.dialogRef.close('success');
       }
     });
+  }
+
+  onDetailsItem(item:Item){
+//console.log(item)
+    const dialogRef = this.dialog.open(UsersDetailsItemStaticComponent, {
+      data: {item:item},
+      width: "60%",
+    });
+    dialogRef.afterClosed().subscribe(result => {
+
+    });
+
+
   }
 }
 

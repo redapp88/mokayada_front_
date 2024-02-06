@@ -19,7 +19,7 @@
     </div>
       <div class="col-6">
         <button mat-button (click)="onDeleteOffer(this.selectedOffer)">Supprimer</button>
-        <button mat-button color="primary" (click)="onSaveItemsAffectation()" [disabled]="this.selectedOffer?.status!=='FREE'">Enregistrer</button>
+        <button mat-button color="primary" (click)="onSaveItemsAffectation()" [disabled]="isDisabledOffer()">Enregistrer</button>
       </div>
     </div>
     <cdk-virtual-scroll-viewport itemSize="50" class="example-viewport" style="min-height: 350px;">
@@ -36,6 +36,9 @@
       </div>
       <div class="col-md-10" *ngIf="selectedOffer?.propositions.length>0 && selectedOffer.status==='CONCLUDED'" >
         <p class="text-info font-weight-bold"  (click)="onShowProposals()" style="cursor: pointer">Cette ne peut etre modifié parce qu'un contrat est deja conclus </p>
+      </div>
+      <div class="col-md-10" *ngIf="loadedOfferItems?.length==0" >
+        <p class="text-danger font-weight-bold"  style="cursor: pointer">Cette offre n'a pas  d'items. Par conséquent elle n'est pas visible pour les autres utilisateurs</p>
       </div>
 
       <div class="col-md-10" *ngIf="loadedOffers?.length == 0" >
@@ -65,7 +68,12 @@
             [cdkDropListConnectedTo]="[doneList]"
             class="example-list"
             (cdkDropListDropped)="drop($event)">
-            <div [cdkDragDisabled]="isDisabledOffer()" class="example-box" *ngFor="let item of loadedItems" cdkDrag>{{item.title}}</div>
+            <div [cdkDragDisabled]="isDisabledOffer()" class="example-box" *ngFor="let item of loadedItems" cdkDrag>
+              {{item.title}}
+              <div class="icon-container">
+              <img class="img-fluid icon" [src]="item?.photos[0]?.url" alt="Image">
+              </div>
+            </div>
           </div>
         </cdk-virtual-scroll-viewport>
       </div>
@@ -87,7 +95,13 @@
             class="example-list"
             (cdkDropListDropped)="drop($event)">
 
-            <div [cdkDragDisabled]="isDisabledOffer()"  class="example-box" *ngFor="let item of loadedOfferItems" cdkDrag>{{item.title}}</div>
+            <div [cdkDragDisabled]="isDisabledOffer()"  class="example-box" *ngFor="let item of loadedOfferItems" cdkDrag>
+              {{item.title}}
+              <div class="icon-container">
+                <img class="img-fluid icon" [src]="item?.photos[0]?.url" alt="Image">
+              </div>
+
+            </div>
           </div>
         </cdk-virtual-scroll-viewport>
       </div>

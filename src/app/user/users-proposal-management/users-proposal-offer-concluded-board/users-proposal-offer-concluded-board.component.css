@@ -1,0 +1,9 @@
+.icon-container {
+  width: 60px; /* Adjust the width and height as needed */
+  height: 60px;
+}
+
+.icon {
+  width: 100%;
+  height: auto;
+}

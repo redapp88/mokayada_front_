@@ -54,6 +54,10 @@ import { SubscribeComponent } from './public/subscribe/subscribe.component';
 import {MatStepperModule} from "@angular/material/stepper";
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import { InfoComponent } from './shared/info/info.component';
+import { UserInfoComponent } from './public/user-info/user-info.component';
+import { ProfileManagementComponent } from './user/profile-management/profile-management.component';
+import {PasswordEditComponent} from "./user/profile-management/password-edit/password-edit.component";
+
 
 
 @NgModule({
@@ -84,6 +88,9 @@ import { InfoComponent } from './shared/info/info.component';
     UsersContractManagementComponent,
     SubscribeComponent,
     InfoComponent,
+    UserInfoComponent,
+    ProfileManagementComponent,
+    PasswordEditComponent,
 
   ],
   imports: [

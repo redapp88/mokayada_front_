@@ -24,6 +24,11 @@
   font-size: 14px;
   flex-grow: 1;
   flex-basis: 0;
+  max-width: 20%;
+}
+.center {
+  text-align: center;
+/*  border: 1px solid green;*/
 }
 
 .cdk-drag-preview {

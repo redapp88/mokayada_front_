@@ -43,7 +43,8 @@ export class BodyComponent implements OnInit {
     this.offersSubscription = this.offerService.offersSubject.subscribe(
       (resultData: OffersPage) => {
         this.loadOffersPage = resultData;
-       // console.log(this.loadOffersPage)
+       //
+        // console.log(this.loadOffersPage)
 
       }
     )

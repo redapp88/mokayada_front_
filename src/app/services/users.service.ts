@@ -16,9 +16,23 @@ export class UsersService {
   addUser(firstName:string,lastName:string,sex:string,birthDate:Date,email:string,phone:string,username:string,password:string) {
 
     let request:AppUserRequest = new AppUserRequest(firstName,lastName,sex,birthDate,email,phone,username,password);
-    console.log(request);
+   // console.log(request);
     return this.http.post(`${environment.backEndUrl}/auth/register`,request)
 
 
   }
+
+  getUser(username: string) {
+    return this.http.get(`${environment.backEndUrl}/auth/getUser?username=${username}`,this.authService.httpOptions());
+  }
+
+  updateUser(firstName:string,lastName:string,sex:string,birthDate:Date,email:string,phone:string,username:string) {
+
+    let request:AppUserRequest = new AppUserRequest(firstName,lastName,sex,birthDate,email,phone,null,null);
+
+    return this.http.put(`${environment.backEndUrl}/auth/updateUser?username=${username}`,request,this.authService.httpOptions())
+
+
+  }
+
 }
