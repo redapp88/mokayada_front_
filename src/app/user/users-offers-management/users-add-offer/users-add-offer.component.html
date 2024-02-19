@@ -55,11 +55,6 @@
       </div>
     </div>
     <div class="row">
-      <div *ngIf="isSavingOffer">
-        <h4> Enregistrement de l'offre en cours</h4>
-        <mat-progress-bar mode="indeterminate"></mat-progress-bar>
-      </div>
-
 
     <mat-error *ngIf=errorMessage>
       <div [innerHTML]="errorMessage"></div>
@@ -70,7 +65,7 @@
   </mat-dialog-content>
   <mat-dialog-actions align="end">
     <button mat-button mat-dialog-close [disabled]="isSavingOffer">Annuler</button>
-    <button mat-button cdkFocusInitial (click)="onSaveOffer() "
+    <button mat-button cdkFocusInitial (click)="onSaveOffer() " [class.spinner]="isSavingOffer"
             [disabled]="isSavingOffer || !form.valid ">Ajouter
     </button>
   </mat-dialog-actions>

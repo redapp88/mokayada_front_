@@ -7,7 +7,7 @@ import {Subject,Observable} from "rxjs";
 import {OfferRequest} from "../requests/Offer.request";
 import {ProposalRequest} from "../requests/Proposal.request";
 import {error} from "@angular/compiler-cli/src/transformers/util";
-
+import {Notification} from "../models/Notification.model";
 
 
 @Injectable({
@@ -134,5 +134,14 @@ export class OffersService {
 
       }
     )
+  }
+
+  getNotification(username:string){
+    return this.http.get(`${environment.backEndUrl}/offers/getNotifications?username=${username}`, this.authService.httpOptions())
+  }
+
+  setReaded(notifications:Notification[]) {
+    return this.http.put(`${environment.backEndUrl}/offers/readNotifications`,notifications, this.authService.httpOptions())
+
   }
 }

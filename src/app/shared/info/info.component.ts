@@ -17,7 +17,7 @@ export class InfoComponent {
   errorMessage: string;
 
   constructor(private offerService: OffersService,
-              public dialogRef: MatDialogRef<UsersOfferProposalsListComponent>,
+              public dialogRef: MatDialogRef<any>,
               private dialog: MatDialog,
               @Inject(MAT_DIALOG_DATA) public data: { title: string, message: string, style: string }) {
   }
@@ -35,7 +35,7 @@ export class InfoComponent {
   }
 
   onDismiss(): void {
-    // Close the dialog, return false
+
     this.dialogRef.close();
   }
 }

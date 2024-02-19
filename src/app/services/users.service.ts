@@ -4,6 +4,7 @@ import {AuthService} from "./auth.service";
 import {OfferRequest} from "../requests/Offer.request";
 import {environment} from "../../environement/environement";
 import {AppUserRequest} from "../requests/AppUserRequest.request";
+import {PasswordRequest} from "../requests/Password.request";
 
 
 @Injectable({
@@ -35,4 +36,23 @@ export class UsersService {
 
   }
 
+  updatePassword(oldPassword:string,newPassword:string,username:string) {
+
+    let request:PasswordRequest = new PasswordRequest(oldPassword,newPassword);
+
+    return this.http.put(`${environment.backEndUrl}/auth/updatePassword?username=${username}`,request,this.authService.httpOptions())
+
+
+  }
+
+
+  passwordResetRequest(email: string) {
+    return this.http.get(`${environment.backEndUrl}/tokens/passwordResetRequest?email=${email}`)
+
+  }
+
+  validatResetRequest(email: string, code: string, password: string) {
+
+    return this.http.put(`${environment.backEndUrl}/tokens/validatResetRequest?email=${email}`,{newPassword:password,tokenCode:code})
+  }
 }

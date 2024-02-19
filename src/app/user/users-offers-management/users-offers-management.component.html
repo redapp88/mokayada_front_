@@ -1,182 +1,214 @@
 <form [formGroup]="form">
-<div class="row">
-  <div class="col-md-4">
-    <div class="example-button-container">
-      <button mat-fab color="primary" aria-label="Example icon button with a delete icon" (click)="onAddOffer()">
-        <mat-icon>plus_one</mat-icon>
-      </button>
-    </div>
-    <h2 class="text-info">Mes Offres:</h2>
-    <div class="row">
-
-      <div class="col-6">
-    <mat-form-field class="example-full-width" appearance="fill">
-      <mat-label>Description</mat-label>
-      <input  (change)="fetchOffers()" type="text" matInput placeholder="" formControlName="keyword" />
-      <mat-error>
-      </mat-error>
-    </mat-form-field>
-    </div>
-      <div class="col-6">
-        <button mat-button (click)="onDeleteOffer(this.selectedOffer)">Supprimer</button>
-        <button mat-button color="primary" (click)="onSaveItemsAffectation()" [disabled]="isDisabledOffer()">Enregistrer</button>
-      </div>
-    </div>
-    <cdk-virtual-scroll-viewport itemSize="50" class="example-viewport" style="min-height: 350px;">
-    <mat-selection-list #offers [multiple]="false" (selectionChange)="onChangeSelectedOffer(offers.selectedOptions.selected[0]?.value)">
-      <mat-list-option  [selected]="isTheSelectedOne(i,offer)"  *ngFor="let offer of loadedOffers ; index as i" [value]="offer" [ngClass]="{'bg-success':  offer.status==='CONCLUDED'}">
-        {{offer.title}}
-      </mat-list-option>
-    </mat-selection-list>
-    </cdk-virtual-scroll-viewport>
-
-    <div class="row"  >
-      <div class="col-md-10" *ngIf="selectedOffer?.propositions.length>0 && selectedOffer.status==='FREE' ">
-        <p class="text-info font-weight-bold" (click)="onShowProposals()" style="cursor: pointer"  >Cette offre a reçu une ou plusieurs propositions est ne peut etre modifier actuellement</p>
-      </div>
-      <div class="col-md-10" *ngIf="selectedOffer?.propositions.length>0 && selectedOffer.status==='CONCLUDED'" >
-        <p class="text-info font-weight-bold"  (click)="onShowProposals()" style="cursor: pointer">Cette ne peut etre modifié parce qu'un contrat est deja conclus </p>
-      </div>
-      <div class="col-md-10" *ngIf="loadedOfferItems?.length==0" >
-        <p class="text-danger font-weight-bold"  style="cursor: pointer">Cette offre n'a pas  d'items. Par conséquent elle n'est pas visible pour les autres utilisateurs</p>
-      </div>
-
-      <div class="col-md-10" *ngIf="loadedOffers?.length == 0" >
-        <p class="text-info font-weight-bold" style="cursor: pointer">aucune offre disponible appuyer sur +1 piur présenter une  </p>
-      </div>
-
-    </div>
-
-  </div>
-  <div class="col-md-8">
-
-    <div class="row">
+  <div class="row">
     <div class="col-md-4">
-
-        <button type="button" class="btn btn-primary" (click)="onShowProposals()">
-          Propositions<span class="badge bg-secondary">{{selectedOffer?.propositions.length}}</span>
+      <div class="example-button-container">
+        <button mat-fab color="primary" aria-label="Example icon button with a delete icon" (click)="onAddOffer()"
+                [disabled]="isSavingItems || isLoadingOffers || isLoadingOfferItems">
+          <mat-icon>plus_one</mat-icon>
         </button>
+      </div>
+      <h2 class="text-info">Mes Offres:</h2>
+
+      <div class="align-content-center" *ngIf="isLoadingOffers">
+        <div class="d-flex justify-content-center">
+          <div class="spinner-border" role="status">
+            <span class="sr-only">Loading...</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="row" *ngIf="!isLoadingOffers">
+
+        <div class="col-md-6">
+          <mat-form-field class="example-full-width" appearance="fill">
+            <mat-label>Description</mat-label>
+            <input (change)="fetchOffers()" type="text" matInput placeholder="" formControlName="keyword"/>
+            <mat-error>
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-md-6">
+          <button mat-button (click)="onDeleteOffer(this.selectedOffer)"
+                  [disabled]="isSavingItems || isLoadingOffers || isLoadingOfferItems">Supprimer
+          </button>
+          <button mat-button color="primary" (click)="onSaveItemsAffectation()"
+                  [disabled]="isSavingItems || isLoadingOffers || isLoadingOfferItems || isDisabledOffer()">Enregistrer
+          </button>
+        </div>
+      </div>
+      <cdk-virtual-scroll-viewport itemSize="50" class="example-viewport" style="min-height: 350px;"
+                                   *ngIf="!isLoadingOffers">
+        <mat-selection-list [disabled]="isSavingItems" #offers [multiple]="false"
+                            (selectionChange)="onChangeSelectedOffer(offers.selectedOptions.selected[0]?.value)">
+          <mat-list-option [attr.disabled]="isSavingItems" [selected]="isTheSelectedOne(i,offer)"
+                           *ngFor="let offer of loadedOffers ; index as i" [value]="offer"
+                           [ngClass]="{'bg-success':  offer.status==='CONCLUDED'}">
+            {{offer.title}}
+          </mat-list-option>
+        </mat-selection-list>
+      </cdk-virtual-scroll-viewport>
+
+      <div class="row">
+        <div class="col-md-10" *ngIf="selectedOffer?.propositions.length>0 && selectedOffer.status==='HASPROPOSALS' ">
+          <p class="text-info font-weight-bold" (click)="onShowProposals()" style="cursor: pointer">Cette offre a reçu
+            une ou plusieurs propositions est ne peut etre modifier actuellement</p>
+        </div>
+        <div class="col-md-10" *ngIf="selectedOffer?.propositions.length>0 && selectedOffer.status==='CONCLUDED'">
+          <p class="text-info font-weight-bold" (click)="onShowProposals()" style="cursor: pointer">Cette ne peut etre
+            modifié parce qu'un contrat est deja conclus </p>
+        </div>
+        <div class="col-md-10" *ngIf="loadedOfferItems?.length==0 && loadedOffers?.length > 0">
+          <p class="text-danger font-weight-bold" style="cursor: pointer">Cette offre n'a pas d'items. Par conséquent
+            elle n'est pas visible pour les autres utilisateurs</p>
+        </div>
+
+        <div class="col-md-10" *ngIf="loadedOffers?.length == 0">
+          <p class="text-info font-weight-bold" style="cursor: pointer">aucune offre disponible appuyer sur +1 piur
+            présenter une </p>
+        </div>
+
+      </div>
+
+    </div>
+    <div class="col-md-8">
+      <div class="d-flex justify-content-center" *ngIf="isLoadingOfferItems">
+        <div class="spinner-border" role="status">
+          <span class="sr-only">Loading...</span>
+        </div>
+      </div>
+      <div class="row" *ngIf="!isLoadingOfferItems && !isLoadingOffers && loadedOffers.length>0">
+        <div class="col-md-4 offset-md-3">
+          <button type="button" class="btn btn-primary" (click)="onShowProposals()">
+            Propositions<span class="badge bg-secondary">{{selectedOffer?.propositions.length}}</span>
+          </button>
+          <p class="small">glisser l'Item pour l'ajouter ou le supprimer de l'offre</p>
+        </div>
+      </div>
+      <div class="row" *ngIf="!isLoadingOfferItems && !isLoadingOffers">
+        <div class="col-md-auto">
 
 
-      <div class="example-container">
-        <h2>Items disponibles</h2>
-        <cdk-virtual-scroll-viewport itemSize="50" class="example-viewport" style="min-height: 250px;">
-          <div
-            cdkDropList
-            #todoList="cdkDropList"
-            [cdkDropListData]="loadedItems"
-            [cdkDropListConnectedTo]="[doneList]"
-            class="example-list"
-            (cdkDropListDropped)="drop($event)">
-            <div [cdkDragDisabled]="isDisabledOffer()" class="example-box" *ngFor="let item of loadedItems" cdkDrag>
-              {{item.title}}
-              <div class="icon-container">
-              <img class="img-fluid icon" [src]="item?.photos[0]?.url" alt="Image">
+          <div class="example-container">
+            <h2>Items disponibles</h2>
+            <cdk-virtual-scroll-viewport itemSize="50" class="example-viewport" style="min-height: 250px;">
+              <div
+                cdkDropList
+                #todoList="cdkDropList"
+                [cdkDropListData]="loadedItems"
+                [cdkDropListConnectedTo]="[doneList]"
+                class="example-list"
+                (cdkDropListDropped)="drop($event)">
+                <div [cdkDragDisabled]="isDisabledOffer() || isSavingItems" class="example-box"
+                     *ngFor="let item of loadedItems" cdkDrag>
+                 <p class="font-weight-bold">{{item.title}}</p>
+                  <div class="icon-container">
+                    <img class="img-fluid icon" [src]="item?.photos[0]?.url" alt="Image">
+                  </div>
+                </div>
+              </div>
+            </cdk-virtual-scroll-viewport>
+          </div>
+        </div>
+
+        <div class="col-md-auto">
+          <div class="example-button-row">
+
+          </div>
+          <div class="example-container">
+            <h2>Items de l'offre</h2>
+            <cdk-virtual-scroll-viewport itemSize="50" class="example-viewport" style="min-height: 250px;">
+              <div
+                cdkDropList
+
+                #doneList="cdkDropList"
+                [cdkDropListData]="loadedOfferItems"
+                [cdkDropListConnectedTo]="[todoList]"
+                class="example-list"
+                (cdkDropListDropped)="drop($event)">
+
+                <div [cdkDragDisabled]="isDisabledOffer() || isSavingItems" class="example-box"
+                     *ngFor="let item of loadedOfferItems" cdkDrag>
+                  <p class="font-weight-bold">{{item.title}}</p>
+                  <div class="icon-container">
+                    <img class="img-fluid icon" [src]="item?.photos[0]?.url" alt="Image">
+                  </div>
+
+                </div>
+              </div>
+            </cdk-virtual-scroll-viewport>
+          </div>
+        </div>
+      </div>
+      <form class="example-form" [formGroup]="offerform">
+        <mat-dialog-content class="mat-typography">
+          <div class="row" *ngIf="!isLoadingOfferItems  && !isLoadingOffers">
+            <div class="col-md-4 col-sm-12">
+              <mat-form-field class="example-full-width" appearance="fill">
+                <mat-label>Titre</mat-label>
+                <input matInput formControlName="title">
+                <mat-error>
+
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-md-4 col-sm-12">
+              <mat-form-field class="example-full-width" appearance="fill">
+                <mat-label>Description</mat-label>
+                <textarea matInput placeholder="" formControlName="description"></textarea>
+                <mat-error>
+
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+          </div>
+
+          <div class="row" *ngIf="!isLoadingOfferItems  && !isLoadingOffers" style="margin-bottom: 70px">
+            <div class="col-md-4 col-sm-12">
+              <mat-form-field appearance="fill">
+                <mat-label></mat-label>
+                <mat-select matNativeControl formControlName="categorie">
+                  <mat-option *ngFor="let categorie of categories"
+                              [value]=categorie>{{categorie}}
+                  </mat-option>
+                </mat-select>
+                <mat-error>
+
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-md-4 col-sm-12">
+              <mat-form-field appearance="fill">
+                <mat-label></mat-label>
+                <mat-select matNativeControl formControlName="city">
+                  <mat-option *ngFor="let city of cities"
+                              [value]=city>{{city}}
+                  </mat-option>
+                </mat-select>
+                <mat-error>
+
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+          </div>
+          <div class="row">
+
+            <div class="col-md-10">
+              <div *ngIf="isSavingItems">
+                <mat-progress-bar mode="indeterminate"></mat-progress-bar>
               </div>
             </div>
+            <mat-error *ngIf=errorMessage>
+              <div [innerHTML]="errorMessage"></div>
+            </mat-error>
+
           </div>
-        </cdk-virtual-scroll-viewport>
-      </div>
+
+        </mat-dialog-content>
+      </form>
+
     </div>
-
-    <div class="col-md-4">
-      <div class="example-button-row">
-
-      </div>
-      <div class="example-container">
-        <h2>Items de l'offre</h2>
-        <cdk-virtual-scroll-viewport itemSize="50" class="example-viewport" style="min-height: 250px;">
-          <div
-            cdkDropList
-
-            #doneList="cdkDropList"
-            [cdkDropListData]="loadedOfferItems"
-            [cdkDropListConnectedTo]="[todoList]"
-            class="example-list"
-            (cdkDropListDropped)="drop($event)">
-
-            <div [cdkDragDisabled]="isDisabledOffer()"  class="example-box" *ngFor="let item of loadedOfferItems" cdkDrag>
-              {{item.title}}
-              <div class="icon-container">
-                <img class="img-fluid icon" [src]="item?.photos[0]?.url" alt="Image">
-              </div>
-
-            </div>
-          </div>
-        </cdk-virtual-scroll-viewport>
-      </div>
-    </div>
-    </div>
-    <form class="example-form" [formGroup]="offerform">
-      <mat-dialog-content class="mat-typography">
-        <div class="row">
-          <div class="col-md-4">
-            <mat-form-field class="example-full-width" appearance="fill">
-              <mat-label>Titre</mat-label>
-              <input matInput formControlName="title">
-              <mat-error>
-
-              </mat-error>
-            </mat-form-field>
-          </div>
-          <div class="col-md-4">
-            <mat-form-field class="example-full-width" appearance="fill">
-              <mat-label>Description</mat-label>
-              <textarea matInput placeholder="" formControlName="description"></textarea>
-              <mat-error>
-
-              </mat-error>
-            </mat-form-field>
-          </div>
-
-        </div>
-
-        <div class="row">
-          <div class="col-md-4">
-            <mat-form-field appearance="fill">
-              <mat-label></mat-label>
-              <mat-select matNativeControl formControlName="categorie">
-                <mat-option *ngFor="let categorie of categories"
-                            [value]=categorie>{{categorie}}
-                </mat-option>
-              </mat-select>
-              <mat-error>
-
-              </mat-error>
-            </mat-form-field>
-          </div>
-          <div class="col-md-4">
-            <mat-form-field appearance="fill">
-              <mat-label></mat-label>
-              <mat-select matNativeControl formControlName="city">
-                <mat-option *ngFor="let city of cities"
-                            [value]=city>{{city}}
-                </mat-option>
-              </mat-select>
-              <mat-error>
-
-              </mat-error>
-            </mat-form-field>
-          </div>
-
-        </div>
-        <div class="row">
-          <div *ngIf="false">
-            <h4> Enregistrement de l'offre en cours</h4>
-            <mat-progress-bar mode="indeterminate"></mat-progress-bar>
-          </div>
-
-
-          <mat-error *ngIf=errorMessage>
-            <div [innerHTML]="errorMessage"></div>
-          </mat-error>
-
-        </div>
-
-      </mat-dialog-content>
-    </form>
 
   </div>
-
-</div>
 </form>

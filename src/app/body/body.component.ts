@@ -21,8 +21,8 @@ import {OfferDetailsComponent} from "../offers/offer-details/offer-details.compo
 export class BodyComponent implements OnInit {
 
 
-  cities: any = [{name:"Toutes",value:"*"}, {name:"Rabat",value:"Rabat"}, {name:"Casablanca",value:"Casablanca"}, {name:"Fes",value:"Fes"}, {name:"Agadir",value:"Agadir"}];
-  categories: any[] = [{name:"Toutes",value:"*"}, {name:"Maison",value:"Maison"}, {name:"Auto-Moto",value:"Auto-Moto"}, {name:"Enfants",value:"enfants"}, {name:"Voyages",value:"Voyages"}];
+  cities: any[] = [];
+  categories: any[] = [];
 
   loadOffersPage: OffersPage;
   isLoading: boolean = false;
@@ -40,9 +40,18 @@ export class BodyComponent implements OnInit {
   popUpWith: string = "80%";
 
   ngOnInit(): void {
+
+    this.cities =this.sharedService.cities.map(e=>({name:e,value:e}))
+    this.cities.unshift({name:"Toutes",value:"*"})
+
+    this.categories =this.sharedService.categories.map(e=>({name:e,value:e}))
+    this.categories.unshift({name:"Toutes",value:"*"})
+
+
     this.offersSubscription = this.offerService.offersSubject.subscribe(
       (resultData: OffersPage) => {
         this.loadOffersPage = resultData;
+
        //
         // console.log(this.loadOffersPage)
 

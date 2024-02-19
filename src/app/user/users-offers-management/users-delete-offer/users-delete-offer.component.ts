@@ -13,6 +13,7 @@ export class UsersDeleteOfferComponent  implements OnInit{
 
   loadedOffer:Offer;
   errorMessage:string;
+  isDeleting=false;
   constructor(private offerService: OffersService,
               public dialogRef: MatDialogRef<UsersOfferProposalsListComponent>,
               private dialog: MatDialog,
@@ -23,11 +24,14 @@ export class UsersDeleteOfferComponent  implements OnInit{
   }
 
   onConfirm(): void {
+    this.isDeleting=true;
 this.offerService.deleteOffer(this.loadedOffer).subscribe(
   ()=>{
+    this.isDeleting=false;
     this.dialogRef.close('success');
   },
   (error)=>{
+    this.isDeleting=false;
     this.errorMessage = error;
   }
 )

@@ -31,3 +31,62 @@
   background-color:white;
   border-bottom: solid #32a1ce 1px ;
 }
+.btn-transparent {
+  background-color: transparent;
+  border: none;
+  padding: 0;
+}
+
+/* Style pour le badge de notification */
+.badge-notification {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: #007bff; /* Couleur de fond du badge */
+  color: #fff; /* Couleur du texte du badge */
+  border: 1px solid #007bff; /* Bordure du badge */
+  border-radius: 50%; /* Bord arrondi pour un badge circulaire */
+  padding: 4px 8px; /* Espacement à l'intérieur du badge */
+  font-size: 12px; /* Taille de la police du badge */
+}
+
+.btn-red {
+  background-color: #ff0000; /* Rouge */
+  border: none;
+  padding: 0;
+}
+
+/* Style pour le badge de notification */
+.badge-notification {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: #fff; /* Couleur de fond du badge */
+  color: #ff0000; /* Couleur du texte du badge */
+  border: 1px solid #ff0000; /* Bordure du badge */
+  border-radius: 50%; /* Bord arrondi pour un badge circulaire */
+  padding: 4px 8px; /* Espacement à l'intérieur du badge */
+  font-size: 16px; /* Taille de la police du badge */
+}
+.red-background {
+  background-color: #ffbab7;
+}
+
+.blue-text {
+  color: blue;
+}
+.color-transition {
+  transition: background-color 0.5s ease;
+}
+
+.ellipsis-span {
+  max-width: 70vw;
+  display: inline-block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.no-borders{
+  border: 0px;
+}

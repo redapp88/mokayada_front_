@@ -8,7 +8,7 @@
 </div>
 
 <div mat-dialog-actions>
-  <button mat-button (click)="onDismiss()">Non</button>
-  <button mat-raised-button color="primary" (click)="onConfirm()">Oui</button>
+  <button mat-button (click)="onDismiss()" [disabled]="isDeleting">Non</button>
+  <button mat-raised-button color="primary" [class.spinner]="isDeleting" (click)="onConfirm()" [disabled]="isDeleting">Oui</button>
 </div>
-<p>{{errorMessage}}</p>
+<p class="small text-danger">{{errorMessage}}</p>

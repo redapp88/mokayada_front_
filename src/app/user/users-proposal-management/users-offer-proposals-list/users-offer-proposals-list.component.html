@@ -22,7 +22,7 @@
           <button mat-button color="primary" (click)="onAcceptOffer(proposal)" [disabled]="loadedOffer.status==='CONCLUDED'">Accepter l'offre</button>
           <li class="list-group-item" style="cursor: pointer;" *ngFor="let item of proposal.items" (click)="onDetailsItem(item)">
             <button mat-mini-fab disabled aria-label="Example icon button with a home icon">
-              <mat-icon> local_florist</mat-icon>
+              <img class="img-fluid icon" [src]="item?.photos[0]?.url" alt="Image">
             </button>
             {{item.title}}
 

@@ -3,6 +3,8 @@ import {MatDialog} from "@angular/material/dialog";
 import {AbstractControl, FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {UsersService} from "../../../services/users.service";
 import {Router} from "@angular/router";
+import {AuthService} from "../../../services/auth.service";
+import {SharedService} from "../../../services/shared.service";
 
 @Component({
   selector: 'app-password-edit',
@@ -12,36 +14,37 @@ import {Router} from "@angular/router";
 export class PasswordEditComponent implements OnInit {
   form: FormGroup;
   passwordText = "";
+  errorMessage = ""
+  isSaving = false;
 
   ngOnInit(): void {
 
 
-
-
     this.form = new FormGroup({
-      oldPassword: new FormControl({
-        value: "",
-        disabled: false
-      }, {validators: [Validators.required, Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/)]}),
-
       password: new FormControl({
         value: "",
-        disabled: false
+        disabled: this.isSaving
+      }, {validators: [Validators.required, Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/)]}),
+
+      newPassword: new FormControl({
+        value: "",
+        disabled: this.isSaving
       }, {validators: [Validators.required, Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/)]}),
 
       repassword: new FormControl({
         value: "",
-        disabled: false
+        disabled: this.isSaving
       }, {validators: [Validators.required, this.confirmationMotDePasseValidator.bind(this)]}),
 
     });
 
 
-    this.form.controls["password"].valueChanges.forEach(value => this.passwordText = value);
+    this.form.controls["newPassword"].valueChanges.forEach(value => this.passwordText = value);
   }
 
 
-  constructor(private _formBuilder: FormBuilder, private usersService: UsersService, private dialog: MatDialog,private router:Router) {
+  constructor(private _formBuilder: FormBuilder, private usersService: UsersService, private dialog: MatDialog, private router: Router, private authService: AuthService,
+              private sharedService: SharedService) {
   }
 
 
@@ -51,5 +54,21 @@ export class PasswordEditComponent implements OnInit {
     const confirmationMotDePasse = control.value;
 
     return motDePasse === confirmationMotDePasse ? null : {'nonCorrespondant': true};
+  }
+
+  onUpdate() {
+    this.isSaving=true;
+    this.usersService.updatePassword(this.form.controls["password"].value, this.form.controls["newPassword"].value, this.authService.curentUser.username).subscribe(
+      (resData) => {
+        this.isSaving=false;
+        this.sharedService.openDialogInfo("Information", "Mot de pass modifier avec success", "success", "disconnect")
+      },
+      (error) => {
+        this.isSaving=false;
+        console.log(error);
+        this.errorMessage = error
+
+      }
+    )
   }
 }

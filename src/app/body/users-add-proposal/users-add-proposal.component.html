@@ -30,7 +30,13 @@
 
 </div>
 <mat-progress-bar *ngIf="isLoadingAllUsersItems" mode="indeterminate"></mat-progress-bar>
-<div class="row" *ngIf="!isLoadingAllUsersItems">
+<div class="center"  *ngIf="!isLoadingAllUsersItems && allUsersItems.length ==0 && proposedItems.length == 0">
+  <h2 class="text-secondary">
+    Vous n'avez pas d'Items <a href="/user/items-management">ajouter</a> au moin un pour présenter des propositions aux offres disponibles.
+  </h2>
+</div>
+
+<div class="row" *ngIf="!isLoadingAllUsersItems && (allUsersItems.length >0 || proposedItems.length > 0)">
 
   <div class="col-md-12">
 
@@ -56,7 +62,7 @@
   </div>
 
 
-  <div class="col-12">
+  <div class="col-md-12">
     <div class="example-container">
       <h2>Items disponibles</h2>
 

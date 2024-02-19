@@ -1,10 +1,7 @@
 
 <div class="row">
   <div class="col-md-4 offset-md-4">
-  <button mat-raised-button (click)="isLinear = !isLinear" id="toggle-linear">
-  {{!isLinear ? 'Enable linear mode' : 'Disable linear mode'}}
-</button>
-<mat-stepper orientation="vertical" [linear]="isLinear" #stepper>
+<mat-stepper orientation="vertical" [linear]="isLinear" #stepper class="custom-stepper">
   <mat-step [stepControl]="formInfo">
     <form [formGroup]="formInfo">
       <ng-template matStepLabel>Informations Personnelles</ng-template>

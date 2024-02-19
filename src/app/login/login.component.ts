@@ -4,7 +4,7 @@ import {Router} from "@angular/router";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {MatDialog} from "@angular/material/dialog";
 import {MatSnackBar} from "@angular/material/snack-bar";
-import {ResetPasswordComponent} from "../reset-password/reset-password.component";
+import {PasswordResetComponent} from "../public/password-reset/password-reset.component";
 
 @Component({
   selector: 'app-login',
@@ -110,14 +110,12 @@ export class LoginComponent {
     return (this.form.controls.username.valid && this.form.controls.password.valid);
   }
 
-  onGoForgetPassword() {
-    this.router.navigate(["/forgetPassword"])
-  }
+
 
   onResetPassword() {
 
-    const dialogRef = this.dialog.open(ResetPasswordComponent, {
-      data: {},
+    const dialogRef = this.dialog.open(PasswordResetComponent, {
+      data: {email:this.form.controls["username"].value},
       width: '60%',
     })
   }

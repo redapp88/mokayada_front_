@@ -20,15 +20,14 @@
         <span>Mes Contrats</span>
       </button>
 
-      <button mat-menu-item [routerLink]="['/user/profile-management']"  >
+      <button mat-menu-item [routerLink]="['/user/profile-management']">
         <mat-icon>person</mat-icon>
         <span>Profile</span>
       </button>
-      <button mat-menu-item [routerLink]="['/user/profile-management']"  >
+      <button mat-menu-item [routerLink]="['/user/edit-password']">
         <mat-icon>lock</mat-icon>
         <span>Changer le mot de passe</span>
       </button>
-
 
 
       <button mat-menu-item (click)="onLogout()">
@@ -37,19 +36,50 @@
       </button>
     </mat-menu>
 
+    <span class="right-aligned-items" style="padding-right: 20px">
+
+
+<div class="dropdown"  *ngIf="isAuthenticated" style="padding-left: 15px">
+  <button class="btn btn-red position-relative" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+          aria-haspopup="true" aria-expanded="false" (click)="onReadNotifications()">
+  <i class="fab fa-facebook-messenger"></i>
+      <span class="badge badge-pill badge-notification">{{unreadNotifications}}</span>
+
+  </button>
+  <div class="dropdown-menu no-borders" aria-labelledby="dropdownMenuButton">
+    <a  *ngFor="let notification of loadedNotifications" [id]="notification.id" class="dropdown-item border-bottom " style="border: 0px" [href]="notification.link" [ngStyle]="{ 'background-color': notification.readed==false ? 'red' : 'transparent' }">
+      <span class="small font-weight-bold ellipsis-span">{{notification.message}}</span>
+    <p class="small text-secondary">le {{notification.creationDate | date:'dd/MM/yyyy HH:mm:ss'}}</p>
+
+    </a>
+  </div>
+
+</div>
+
+    </span>
+
     <span class="centered-items" style="vertical-align: middle;">
           <p class="title_style" [routerLink]="['/public/home']">MoKaYaDa</p>
 
     </span>
 
+
+
+
+
     <span class="right-aligned-items">
-       <button mat-fab  aria-label="Example icon button with a heart icon" [matMenuTriggerFor]="menu"   *ngIf="isAuthenticated">
+       <button mat-fab aria-label="Example icon button with a heart icon" [matMenuTriggerFor]="menu"
+               *ngIf="isAuthenticated">
           {{authenticatedUser.firstname}}
+
         </button>
 
-    <button class="btn btn-link"  *ngIf="!isAuthenticated" [routerLink]="['/login']">
+
+    <button class="btn btn-link" *ngIf="!isAuthenticated" [routerLink]="['/login']">
       Login
     </button>
     </span>
+
+
   </mat-toolbar-row>
 </mat-toolbar>

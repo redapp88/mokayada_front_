@@ -13,6 +13,7 @@ import {UsersContractManagementComponent} from "./user/users-contract-management
 import {SubscribeComponent} from "./public/subscribe/subscribe.component";
 import {ProfileManagementComponent} from "./user/profile-management/profile-management.component";
 import {PasswordEditComponent} from "./user/profile-management/password-edit/password-edit.component";
+import {PasswordResetComponent} from "./public/password-reset/password-reset.component";
 
 const routes: Routes = [
   { path: '', redirectTo: 'public/home', pathMatch: 'full' },
@@ -40,6 +41,12 @@ const routes: Routes = [
     children: [
       {path: '', component: HeaderComponent, outlet: 'page_header'},
       {path: '', component: SubscribeComponent, outlet: 'page_body'},
+      {path: '', component: FooterComponent, outlet: 'page_footer'},
+    ]},
+  {path: 'password-reset',
+    children: [
+      {path: '', component: HeaderComponent, outlet: 'page_header'},
+      {path: '', component: PasswordResetComponent, outlet: 'page_body'},
       {path: '', component: FooterComponent, outlet: 'page_footer'},
     ]},
   {path: 'user/offers-management',canActivate:[UserGuard],

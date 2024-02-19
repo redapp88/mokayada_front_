@@ -13,3 +13,15 @@
 mat-form-field {
   display: block;
 }
+
+/* Si vous utilisez CSS */
+.custom-stepper {
+  width: 800px; /* Largeur personnalisée */
+}
+.container {
+  width: 800px; /* Adjust the width as needed */
+}
+.container .mat-horizontal-stepper {
+  width: 800px !important;
+}
+

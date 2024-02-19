@@ -8,6 +8,7 @@ import {UsersAddItemComponent} from "../../users-items-management/users-add-item
 import {ImageMaximizeComponent} from "../../../shared/image-maximize/image-maximize.component";
 import {AppPhoto} from "../../../models/AppPhoto.model";
 import {OffersService} from "../../../services/offers.service";
+import {SharedService} from "../../../services/shared.service";
 
 @Component({
   selector: 'app-users-add-offer',
@@ -21,12 +22,14 @@ export class UsersAddOfferComponent implements OnInit {
   errorMessage = "";
   isSavingOffer: boolean = false;
   imagePath: string;
-  cities:String[]=["Rabat","Casablanca","Fes","Agadir"];
-  categories:String[]=["Maison","Auto-Moto","Enfants","Voyages"];
+  cities = this.sharedService.cities;
+  categories = this.sharedService.categories;
+
 
 
   //***images ***//
   constructor(private offersService: OffersService,
+              private sharedService:SharedService,
               public dialogRef: MatDialogRef<UsersAddItemComponent>,
               private photoService: PhotosService, private dialog: MatDialog,
               @Inject(MAT_DIALOG_DATA) private data: { id: number }) {

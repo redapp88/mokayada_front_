@@ -1,0 +1,18 @@
+.footer {
+  background-color: #fff; /* Fond blanc */
+  color: #000; /* Texte noir */
+  padding: 20px; /* Ajouter un peu d'espace autour du contenu */
+  position: fixed; /* Position fixe pour rester en bas de la fenêtre */
+  bottom: 0; /* Aligner en bas de la fenêtre */
+  width: 100%; /* Prendre toute la largeur */
+  z-index: 1000; /* S'assurer que le footer est au-dessus de tout autre contenu */
+  border-top: 1px solid #32a1ce; /* Ajouter une bordure supérieure */
+}
+
+.footer-link {
+  color: #ff6600; /* Lien orange */
+}
+
+.footer-link:hover {
+  text-decoration: underline; /* Ajouter une ligne de soulignement lors du survol */
+}

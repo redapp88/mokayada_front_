@@ -20,7 +20,7 @@ export class SubscribeComponent implements OnInit {
   passwordText = "";
   isLoading = false;
   popUpWith: string = "60%";
-  isLinear = false;
+  isLinear = true;
 
   ngOnInit(): void {
 

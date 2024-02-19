@@ -14,6 +14,8 @@ import {OfferRequest} from "../../requests/Offer.request";
 import {OfferWithItemsRequest} from "../../requests/OfferWithItems.request";
 import {UsersOfferProposalsListComponent} from "../users-proposal-management/users-offer-proposals-list/users-offer-proposals-list.component";
 import {UsersDeleteOfferComponent} from "./users-delete-offer/users-delete-offer.component";
+import {Notification} from "../../models/Notification.model";
+
 
 @Component({
   selector: 'app-users-offers-management',
@@ -28,6 +30,8 @@ export class UsersOffersManagementComponent {
   loadedOffers: Offer[] = [];
   loadedOfferItems: Item[] = [];
   loadedItems: Item[] = [];
+
+
   errorMessage: string = "";
   isLoadingOffers: boolean = false;
   isLoadingItems: boolean = false;
@@ -39,12 +43,14 @@ export class UsersOffersManagementComponent {
   offerform: FormGroup;
   popUpWith: string = "60%";
   selectedOffer: Offer = null;
-  cities: String[] = ["Rabat", "Casablanca", "Fes", "Agadir"];
-  categories: String[] = ["Maison", "Auto-Moto", "Enfants", "Voyages"];
+  cities = this.sharedService.cities;
+  categories = this.sharedService.categories;
 
   ngOnInit() {
+    this.cities = this.sharedService.cities;
+    this.categories = this.sharedService.categories;
     this.form = new FormGroup({
-      keyword: new FormControl('', {
+      keyword: new FormControl({value: '', disabled: this.isSavingItems}, {
         updateOn: 'change',
         validators: []
       })
@@ -52,22 +58,22 @@ export class UsersOffersManagementComponent {
 
     this.offerform = new FormGroup({
 
-      title: new FormControl({value: '', disabled: this.isDisabledOffer()}, {
+      title: new FormControl({value: '', disabled: true}, {
         updateOn: 'change',
         validators: [Validators.required,
           Validators.minLength(5),
           Validators.maxLength(50)]
 
       }),
-      description: new FormControl({value: '', disabled: this.isDisabledOffer()}, {
+      description: new FormControl({value: '', disabled: this.isDisabledOffer() || this.isSavingItems}, {
         updateOn: 'change',
         validators: []
       }),
-      categorie: new FormControl({value: '', disabled: this.isDisabledOffer()}, {
+      categorie: new FormControl({value: '', disabled: this.isDisabledOffer() || this.isSavingItems}, {
         updateOn: 'change',
         validators: []
       }),
-      city: new FormControl({value: '', disabled: this.isDisabledOffer()}, {
+      city: new FormControl({value: '', disabled: this.isDisabledOffer() || this.isSavingItems}, {
           updateOn: 'change',
           validators: [Validators.required]
         }
@@ -75,6 +81,8 @@ export class UsersOffersManagementComponent {
 
 
     })
+
+
 
     this.offersService.offersSubject.subscribe(
       (res) => {
@@ -95,6 +103,8 @@ export class UsersOffersManagementComponent {
         this.loadedOfferItems = res
       }
     )
+
+
 
     this.fetchOffers()
 
@@ -126,12 +136,14 @@ export class UsersOffersManagementComponent {
       },
       error => {
         this.errorMessage = error.message;
-        this.isLoadingItems = false
+        this.isLoadingOfferItems = false
       },
       () => {
-        this.isLoadingItems = false
+        this.isLoadingOfferItems = false
       }
     )
+
+
   }
 
 
@@ -164,7 +176,6 @@ export class UsersOffersManagementComponent {
   onChangeSelectedOffer(offer) {
     this.disableEnableForm(offer)
     this.selectedOffer = offer;
-    console.info(this.selectedOffer)
     this.offerform.get('title').setValue(offer.title);
     this.offerform.get('description').setValue(offer.description);
     this.offerform.get('categorie').setValue(offer.categorie);
@@ -184,16 +195,24 @@ export class UsersOffersManagementComponent {
       items: this.loadedOfferItems
 
     }
-
+    this.offerform.disable()
     //console.log(offerWithItemsRequest)
     this.itemsService.saveItemAffectation(this.selectedOffer, offerWithItemsRequest).subscribe(
       () => {
-        this.isSavingItems = false;
-        this.fetchOffers();
+       this.isSavingItems = false;
+        this.offerform.enable();
+        let offer=this.loadedOffers.filter(o=>o.id==this.selectedOffer.id)[0];
+        offer.title = offerRequest.title;
+        offer.description = offerRequest.description;
+        offer.city = offerRequest.city;
+        offer.categorie = offerRequest.categorie;
+
+       // console.log(offer)
       },
       (error) => {
         this.errorMessage = error;
         this.isSavingItems = false;
+        this.offerform.enable();
       }
     )
   }
@@ -214,6 +233,7 @@ export class UsersOffersManagementComponent {
       return true;
 
     }
+
     else return false;
   }
 
@@ -256,8 +276,22 @@ export class UsersOffersManagementComponent {
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result == "success") {
-        this.sharedService.openSnackBar("Offre supprimé", "")
-        this.fetchOffers();
+        this.sharedService.openSnackBar("Offre supprimée", "")
+        this.selectedOffer=null;
+        this.loadedOffers=this.loadedOffers.filter(item => item !== offer);
+        if(this.loadedOffers.length==0){
+          this.loadedItems=[];
+          this.offerform.get('title').setValue("");
+          this.offerform.get('description').setValue("");
+          this.offerform.get('categorie').setValue("");
+          this.offerform.get('city').setValue("");
+
+          this.offerform.get('title').disable();
+          this.offerform.get('description').disable();
+          this.offerform.get('categorie').disable();
+          this.offerform.get('city').disable();
+        }
+        //this.fetchOffers();
       }
     });
   }
@@ -268,6 +302,9 @@ export class UsersOffersManagementComponent {
       isDisabled=true;
     }
     if(this.selectedOffer?.propositions.length>0 && this.selectedOffer.status==='FREE'){
+      isDisabled = true;
+    }
+    if(this.selectedOffer?.propositions.length>0 && this.selectedOffer.status==='HASPROPOSALS'){
       isDisabled = true;
     }
     if(this.selectedOffer?.propositions.length>0 && this.selectedOffer.status==='CONCLUDED'){

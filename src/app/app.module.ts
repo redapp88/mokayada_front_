@@ -19,7 +19,6 @@ import {MAT_DATE_LOCALE, MatNativeDateModule, MatOptionModule} from "@angular/ma
 import {MatSelectModule} from "@angular/material/select";
 import {OfferDetailsComponent} from './offers/offer-details/offer-details.component';
 import {LoginComponent} from './login/login.component';
-import {ResetPasswordComponent} from './reset-password/reset-password.component';
 import {MatIconModule} from "@angular/material/icon";
 import {MatDialogModule} from "@angular/material/dialog";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
@@ -57,6 +56,7 @@ import { InfoComponent } from './shared/info/info.component';
 import { UserInfoComponent } from './public/user-info/user-info.component';
 import { ProfileManagementComponent } from './user/profile-management/profile-management.component';
 import {PasswordEditComponent} from "./user/profile-management/password-edit/password-edit.component";
+import { PasswordResetComponent } from './public/password-reset/password-reset.component';
 
 
 
@@ -68,7 +68,6 @@ import {PasswordEditComponent} from "./user/profile-management/password-edit/pas
     BodyComponent,
     OfferDetailsComponent,
     LoginComponent,
-    ResetPasswordComponent,
     UsersItemsManagementComponent,
     UsersOffersManagementComponent,
     UsersAddItemComponent,
@@ -91,6 +90,7 @@ import {PasswordEditComponent} from "./user/profile-management/password-edit/pas
     UserInfoComponent,
     ProfileManagementComponent,
     PasswordEditComponent,
+    PasswordResetComponent,
 
   ],
   imports: [
